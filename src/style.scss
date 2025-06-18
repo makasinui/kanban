@@ -14,5 +14,9 @@ html, body, #app {
 .icon {
     width: 16px;
     height: 16px;
-    object-fit: cover;
+}
+
+button {
+    border: none;
+    cursor: pointer;
 }
