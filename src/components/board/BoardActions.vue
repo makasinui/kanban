@@ -1,29 +1,32 @@
 <template>
-    <div class="board__actions">
+    <footer class="board__actions">
         <div class="actions">
-            <ActionButton>
+            <ActionButton @click="boardStore.addNewColumn">
                 <img :src="IconPlus" />
                 <span>New column</span>
             </ActionButton>
-            <ActionButton>
+            <ActionButton @click="boardStore.shuffleColumns">
                 <img :src="IconRandom" />
                 <span>Shuffle Columns</span>
             </ActionButton>
-            <ActionButton>
+            <ActionButton @click="boardStore.shuffleCards">
                 <img :src="IconRandom" />
                 <span>Shuffle Cards</span>
             </ActionButton>
-            <ActionButton>
+            <ActionButton @click="boardStore.toggleDisableEditing">
                 <img :src="IconPause" />
                 <span>Disable Editing</span>
             </ActionButton>
         </div>
         <span class="board__actions-title">Board Actions</span>
-    </div>
+    </footer>
 </template>
 <script setup lang="ts">
 import { IconPause, IconPlus, IconRandom } from '@/assets/icons';
 import ActionButton from '../ui/ActionButton.vue';
+import { useBoardStore } from '@/store/board';
+
+const boardStore = useBoardStore();
 </script>
 
 <style lang="scss">

@@ -1,12 +1,21 @@
 <template>
-    <div class="column" :class="{ 'column--disabled': props.disabled }">
+    <article
+        class="column"
+        :class="{ 'column--disabled': props.disabled }"
+    >
         <div class="column__header">
             <div class="column__header-text">
-                <h3 class="column__header-title">{{ title }}</h3>
+                <h3
+                    class="column__header-title"
+                    :contenteditable="props.new"
+                    @keypress.enter="changeColumnTitle"
+                >
+                    {{ title }}
+                </h3>
                 <span class="column__header-amount">{{ amountOfCards }}</span>
             </div>
-            <HeaderActions 
-                :disabled="disabled" 
+            <HeaderActions
+                :disabled="disabled"
                 @disable-editing="onDisableColumn"
                 @delete-column="onDeleteColumn"
             />
@@ -25,11 +34,19 @@
                     />
                 </div>
                 <AddCard @add-card="onAddCard" />
-                <span class="column__cards-time" v-if="lastEdited">Last edit: {{ minutesSinceLastEdit }} min ago</span>
+                <span
+                    class="column__cards-time"
+                    v-if="lastEdited"
+                    >Last edit: {{ minutesSinceLastEdit }} min ago</span
+                >
             </div>
-            <FooterActions :sort="sort" @sort="onSort" @clear-all="onClear" />
+            <FooterActions
+                :sort="sort"
+                @sort="onSort"
+                @clear-all="onClear"
+            />
         </div>
-    </div>
+    </article>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +89,12 @@ const onClear = () => {
     boardStore.clearColumnCards(props.id);
 };
 
+const changeColumnTitle = (event: Event) => {
+    const target = event.target as HTMLHeadingElement;
+    const newTitle = target.textContent?.trim() || '';
+    boardStore.updateColumnTitle(props.id, newTitle);
+};
+
 const updateTimeDiff = () => {
     if (props?.lastEdited) {
         const now = new Date();
@@ -112,7 +135,7 @@ watch(() => props.lastEdited, updateTimeDiff);
 
     &--disabled {
         pointer-events: none;
-        
+
         &::after {
             content: '';
             position: absolute;
@@ -150,7 +173,7 @@ watch(() => props.lastEdited, updateTimeDiff);
     &__content {
         display: flex;
         flex-direction: column;
-        height: 100%;;
+        height: 100%;
     }
 
     &__cards {
@@ -162,7 +185,7 @@ watch(() => props.lastEdited, updateTimeDiff);
         }
 
         &-time {
-            font-size: 14px; 
+            font-size: 14px;
             font-weight: 600;
             padding-top: 16px;
             width: 100%;

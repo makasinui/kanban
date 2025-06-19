@@ -88,6 +88,24 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const addNewColumn = () => {
+        boardColumns.push({
+            id: Date.now(),
+            title: '',
+            cards: [],
+            new: true
+        });
+    }
+
+    const updateColumnTitle = (columnId: number, title: string) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            column.title = title;
+            column.new = false;
+            column.lastEdited = new Date();
+        }
+    }
+
     return {
         boardColumns,
         addCard,
@@ -96,6 +114,8 @@ export const useBoardStore = defineStore('board', () => {
         toggleDisableColumn,
         deleteColumn,
         sortColumnCards,
-        clearColumnCards
+        clearColumnCards,
+        addNewColumn,
+        updateColumnTitle
     }
 });

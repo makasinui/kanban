@@ -10,6 +10,7 @@
                 :disabled="column.disabled"
                 :sort="column.sort"
                 :last-edited="column.lastEdited"
+                :new="column.new"
             />
         </div>
         <BoardActions />

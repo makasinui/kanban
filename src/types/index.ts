@@ -5,6 +5,7 @@ export interface IColumn {
     disabled?: boolean;
     sort?: 'asc' | 'desc';
     lastEdited?: Date;
+    new?: boolean;
 }
 
 export interface ICard {
