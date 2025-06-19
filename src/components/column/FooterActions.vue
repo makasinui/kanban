@@ -43,13 +43,12 @@ const changeSort = () => {
 .footer-actions {
     width: 100%;
     display: flex;
-    position: absolute;
     align-items: center;
     gap: 8px;
-    bottom: 4px;
-    left: 50%;
+    margin-top: auto;
+    padding-top: 8px;
     justify-content: center;
-    transform: translate(-50%, -50%);
+    flex-shrink: 0;
 
     .action-name {
         color: rgba(0, 0, 0, 0.3);

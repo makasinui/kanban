@@ -33,6 +33,7 @@ const { boardColumns } = storeToRefs(boardStore);
         display: flex;
         gap: 24px;
         height: 100%;
+        min-height: 0;
     }
 
     &::after {

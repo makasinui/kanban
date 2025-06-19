@@ -58,6 +58,11 @@ const amountOfCards = computed(() => {
     min-height: 100%;
     position: relative;
     flex: 1 1 100%;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
 
     &__header {
         display: flex;
@@ -80,6 +85,12 @@ const amountOfCards = computed(() => {
         &-amount {
             color: rgba(0, 0, 0, 0.6);
         }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;;
     }
 
     &__cards {
