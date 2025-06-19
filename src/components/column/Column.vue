@@ -145,7 +145,7 @@ watch(() => props.lastEdited, updateTimeDiff);
     position: relative;
     flex: 1 1 100%;
     overflow: hidden auto;
-    min-width: 400px;
+    min-width: 450px;
     height: 100%;
     display: flex;
     flex-direction: column;

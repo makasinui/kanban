@@ -58,6 +58,16 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const deleteCard = (columnId: number, cardId: number) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if(column) {
+            const cardIndex = column.cards.findIndex(card => card.id === cardId);
+            if(cardIndex !== -1) {
+                column.cards.splice(cardIndex, 1);
+            }
+        }
+    }
+
     const moveCard = (columnId: number, fromCardId: number, toCardId: number) => {
         const column = boardColumns.find(col => col.id === columnId);
         if (column) {
@@ -175,6 +185,7 @@ export const useBoardStore = defineStore('board', () => {
         addCard,
         addNewCard,
         updateCard,
+        deleteCard,
         toggleDisableColumn,
         deleteColumn,
         sortColumnCards,

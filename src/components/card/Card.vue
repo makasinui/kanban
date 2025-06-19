@@ -4,6 +4,7 @@
         :class="{ 'card--editing': isEditing }"
         draggable="true"
         @dragstart="onDragStart"
+        @contextmenu="onDeleteCard"
         @drop="onDrop"
         @dragover.prevent
         @dblclick="isEditing = !isEditing"
@@ -88,7 +89,9 @@ const saveChanges = (isSaved: boolean) => {
         emitChanges();
         return;
     }
-
+    if(props.new) {
+        boardStore.deleteCard(props.columnId, props.id);
+    }
     form.title = props.title;
     form.description = props.description;
     isEditing.value = false;
@@ -103,6 +106,12 @@ const onDragStart = () => {
 const onDrop = () => {
     emit('drop-card', props.id);
 };
+
+const onDeleteCard = (e: MouseEvent) => {
+    e.preventDefault();
+    
+    boardStore.deleteCard(props.columnId, props.id);
+}
 
 const disabledSaveChanges = computed(() => {
     return form.title === props.title && form.description === props.description && !props.new;
