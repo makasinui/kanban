@@ -112,6 +112,15 @@ export const useBoardStore = defineStore('board', () => {
             [boardColumns[i], boardColumns[j]] = [boardColumns[j], boardColumns[i]];
         }
     }
+    
+    const shuffleCards = () => {
+        boardColumns.forEach(column => {
+            for (let i = column.cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [column.cards[i], column.cards[j]] = [column.cards[j], column.cards[i]];
+            }
+        });
+    }
 
     return {
         boardColumns,
@@ -124,6 +133,7 @@ export const useBoardStore = defineStore('board', () => {
         clearColumnCards,
         addNewColumn,
         updateColumnTitle,
-        shuffleColumns
+        shuffleColumns,
+        shuffleCards
     }
 });
