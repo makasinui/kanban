@@ -24,7 +24,10 @@
         >
             {{ form.description ? form.description : 'Add description' }}
         </p>
-        <CardActions @save-changes="saveChanges" v-show="isEditing" />
+        <CardActions
+            @save-changes="saveChanges"
+            v-show="isEditing"
+        />
     </article>
 </template>
 
@@ -34,8 +37,11 @@ import CardActions from './CardActions.vue';
 import { IconDragNDrop } from '@/assets/icons';
 import { ref } from 'vue';
 import { reactive } from 'vue';
+import { useBoardStore } from '@/store/board';
 
-const props = defineProps<ICard>();
+const boardStore = useBoardStore();
+
+const props = defineProps<ICard & { columnId: number }>();
 
 const isEditing = ref(!!props.new);
 
@@ -49,16 +55,23 @@ const onChange = (event: Event, type: 'title' | 'description') => {
     form[type] = target.textContent || '';
 };
 
+const emitChanges = () => {
+    boardStore.updateCard(props.columnId, props.id, {...form, new: false});
+};
+
 const saveChanges = (isSaved: boolean) => {
     if (isSaved) {
         isEditing.value = false;
+        emitChanges();
         return;
     }
 
     form.title = props.title;
     form.description = props.description;
     isEditing.value = false;
-}
+    
+    emitChanges();
+};
 </script>
 
 <style lang="scss">
@@ -81,12 +94,11 @@ const saveChanges = (isSaved: boolean) => {
             display: flex;
             align-items: start;
             justify-content: space-between;
-            
+
             .icon--drag-n-drop {
-                cursor:move;
+                cursor: move;
             }
         }
-
     }
 
     &__description {

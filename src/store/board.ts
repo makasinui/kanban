@@ -38,6 +38,16 @@ export const useBoardStore = defineStore('board', () => {
         addCard(columnId, newCard);
     }
 
+    const updateCard = (columnId: number, cardId: number, updatedCard: Partial<ICard>) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            const cardIndex = column.cards.findIndex(card => card.id === cardId);
+            if (cardIndex !== -1) {
+                column.cards[cardIndex] = { ...column.cards[cardIndex], ...updatedCard };
+            }
+        }
+    }
+
     const toggleDisableColumn = (columnId: number) => {
         const column = boardColumns.find(col => col.id === columnId);
         if (column) {
@@ -78,6 +88,7 @@ export const useBoardStore = defineStore('board', () => {
         boardColumns,
         addCard,
         addNewCard,
+        updateCard,
         toggleDisableColumn,
         deleteColumn,
         sortColumnCards,

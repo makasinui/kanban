@@ -21,6 +21,7 @@
                         :title="card.title"
                         :description="card.description"
                         :new="card.new"
+                        :column-id="id"
                     />
                 </div>
                 <AddCard @add-card="onAddCard" />
