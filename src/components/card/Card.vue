@@ -29,6 +29,7 @@
         </p>
         <CardActions
             @save-changes="saveChanges"
+            :disabled-save-changes="disabledSaveChanges"
             v-show="isEditing"
         />
     </article>
@@ -41,6 +42,7 @@ import { IconDragNDrop } from '@/assets/icons';
 import { ref } from 'vue';
 import { reactive } from 'vue';
 import { useBoardStore } from '@/store/board';
+import { computed } from 'vue';
 
 const boardStore = useBoardStore();
 
@@ -62,7 +64,7 @@ const emitChanges = () => {
     form.title = form.title.trim();
     form.description = form.description.trim();
 
-    boardStore.updateCard(props.columnId, props.id, {...form, new: false});
+    boardStore.updateCard(props.columnId, props.id, { ...form, new: false });
 };
 
 const saveChanges = (isSaved: boolean) => {
@@ -75,9 +77,13 @@ const saveChanges = (isSaved: boolean) => {
     form.title = props.title;
     form.description = props.description;
     isEditing.value = false;
-    
+
     emitChanges();
 };
+
+const disabledSaveChanges = computed(() => {
+    return form.title === props.title && form.description === props.description && !props.new;
+});
 </script>
 
 <style lang="scss">

@@ -1,5 +1,5 @@
 <template>
-    <button class="primary-button" @click="emit('click')">
+    <button :disabled="disabled" class="primary-button" :class="{'primary-button--disabled': disabled}" @click="emit('click')">
         <slot />
     </button>
 </template>
@@ -9,7 +9,12 @@ interface IEmits {
     (event: 'click'): void;
 }
 
+interface IProps {
+    disabled?: boolean;
+}
+
 const emit = defineEmits<IEmits>();
+defineProps<IProps>();
 </script>
 
 <style lang="scss">
@@ -26,5 +31,11 @@ const emit = defineEmits<IEmits>();
     border: none;
     border-radius: 50px;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+
+    &--disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
 }
 </style>

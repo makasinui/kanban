@@ -1,7 +1,7 @@
 
 <template>
     <div class="card__actions">
-        <ActionButton @click="emit('save-changes', true)">
+        <ActionButton :disabled="disabledSaveChanges" @click="emit('save-changes', true)">
             <img :src="IconLighting" alt="save" >
             <span>Save Changes</span>
         </ActionButton>
@@ -19,7 +19,12 @@ interface IEmits {
     (event: 'save-changes', isSaved: boolean): void;
 }
 
+interface IProps {
+    disabledSaveChanges?: boolean;
+}
+
 const emit = defineEmits<IEmits>();
+defineProps<IProps>();
 </script>
 
 <style lang="scss">
