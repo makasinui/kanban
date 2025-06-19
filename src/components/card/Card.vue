@@ -3,14 +3,16 @@
         class="card"
         :class="{ 'card--editing': isEditing }"
         @dblclick="isEditing = !isEditing"
+        @keypress.enter="saveChanges(true)"
     >
         <div class="card__title-wrapper">
             <h3
                 class="card__title"
                 :contenteditable="isEditing"
+                :class="{ 'card__title--editing': isEditing }"
                 @input="(ev) => onChange(ev, 'title')"
             >
-                {{ form.title ? form.title : 'Add title' }}
+                {{ form.title ? form.title : isEditing ? '' : 'Add title' }}
             </h3>
             <img
                 :src="IconDragNDrop"
@@ -19,10 +21,11 @@
         </div>
         <p
             class="card__description"
+            :class="{ 'card__description--editing': isEditing }"
             :contenteditable="isEditing"
             @input="(ev) => onChange(ev, 'description')"
         >
-            {{ form.description ? form.description : 'Add description' }}
+            {{ form.description ? form.description : isEditing ? '' : 'Add description' }}
         </p>
         <CardActions
             @save-changes="saveChanges"
@@ -56,6 +59,9 @@ const onChange = (event: Event, type: 'title' | 'description') => {
 };
 
 const emitChanges = () => {
+    form.title = form.title.trim();
+    form.description = form.description.trim();
+
     boardStore.updateCard(props.columnId, props.id, {...form, new: false});
 };
 
@@ -99,6 +105,11 @@ const saveChanges = (isSaved: boolean) => {
                 cursor: move;
             }
         }
+
+        &--editing {
+            width: 100%;
+            border-bottom: 1px solid #000;
+        }
     }
 
     &__description {
@@ -106,6 +117,11 @@ const saveChanges = (isSaved: boolean) => {
         line-height: 140%;
         color: rgba(0, 0, 0, 0.3);
         padding-top: 8px;
+
+        &--editing {
+            width: 100%;
+            border-bottom: 1px solid #000;
+        }
     }
 
     &:hover {
