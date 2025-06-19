@@ -8,6 +8,7 @@
                 :title="column.title"
                 :cards="column.cards"
                 :disabled="column.disabled"
+                :sort="column.sort"
             />
         </div>
         <BoardActions />

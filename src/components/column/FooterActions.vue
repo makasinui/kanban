@@ -24,7 +24,19 @@ import ActionButton from '../ui/ActionButton.vue';
 import { ref } from 'vue';
 import { computed } from 'vue';
 
-const sort = ref('asc');
+interface IEmits {
+    (event: 'sort', sort: 'asc' | 'desc'): void;
+    (event: 'clearAll'): void;
+}
+
+interface IProps {
+    sort?: 'asc' | 'desc';
+}
+
+const emit = defineEmits<IEmits>();
+const props = defineProps<IProps>();
+
+const sort = ref(props?.sort ?? 'asc');
 
 const getIconSort = computed(() => {
     return sort.value === 'asc' ? IconSortAsc : IconSortDesc;
@@ -36,6 +48,7 @@ const getTitleSort = computed(() => {
 
 const changeSort = () => {
     sort.value = sort.value === 'asc' ? 'desc' : 'asc';
+    emit('sort', sort.value);
 };
 </script>
 

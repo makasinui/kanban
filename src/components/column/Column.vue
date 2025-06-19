@@ -25,7 +25,7 @@
                 </div>
                 <AddCard @add-card="onAddCard" />
             </div>
-            <FooterActions />
+            <FooterActions :sort="sort" @sort="onSort" />
         </div>
     </div>
 </template>
@@ -54,6 +54,10 @@ const onDisableColumn = () => {
 
 const onDeleteColumn = () => {
     boardStore.deleteColumn(props.id);
+};
+
+const onSort = (sort: 'asc' | 'desc') => {
+    boardStore.sortColumnCards(props.id, sort);
 };
 
 const amountOfCards = computed(() => {

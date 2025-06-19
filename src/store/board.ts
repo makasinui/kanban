@@ -52,11 +52,27 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const sortColumnCards = (columnId: number, sort: 'asc' | 'desc') => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            column.cards.sort((a, b) => {
+                if (sort === 'asc') {
+                    return a.title.localeCompare(b.title);
+                } else {
+                    return b.title.localeCompare(a.title);
+                }
+            });
+
+            column.sort = sort;
+        }
+    }
+
     return {
         boardColumns,
         addCard,
         addNewCard,
         toggleDisableColumn,
-        deleteColumn
+        deleteColumn,
+        sortColumnCards
     }
 });

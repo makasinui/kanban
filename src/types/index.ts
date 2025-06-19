@@ -3,6 +3,7 @@ export interface IColumn {
     title: string;
     cards: ICard[];
     disabled?: boolean;
+    sort?: 'asc' | 'desc';
 }
 
 export interface ICard {
