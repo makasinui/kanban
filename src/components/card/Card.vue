@@ -124,6 +124,10 @@ const disabledSaveChanges = computed(() => {
         font-size: 14px;
         font-weight: 600;
         line-height: 140%;
+        width: 100%;
+        word-break: break-all;
+        max-height: 40px;  
+        overflow: hidden;
 
         &-wrapper {
             display: flex;
@@ -146,6 +150,10 @@ const disabledSaveChanges = computed(() => {
         line-height: 140%;
         color: rgba(0, 0, 0, 0.3);
         padding-top: 8px;
+        width: 100%;
+        max-height: 50px;
+        word-break: break-all;  
+        overflow: hidden;
 
         &--editing {
             width: 100%;
