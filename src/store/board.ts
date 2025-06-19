@@ -54,6 +54,21 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const moveCard = (columnId: number, fromCardId: number, toCardId: number) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            const fromIndex = column.cards.findIndex(c => c.id === fromCardId);
+            const toIndex = column.cards.findIndex(c => c.id === toCardId);
+    
+            if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
+    
+            const [movedCard] = column.cards.splice(fromIndex, 1);
+            column.cards.splice(toIndex, 0, movedCard);
+    
+            column.lastEdited = new Date();
+        }
+    };
+
     const toggleDisableColumn = (columnId: number) => {
         const column = boardColumns.find(col => col.id === columnId);
         if (column) {
@@ -146,6 +161,7 @@ export const useBoardStore = defineStore('board', () => {
         updateColumnTitle,
         shuffleColumns,
         shuffleCards,
-        toggleDisableEditing
+        toggleDisableEditing,
+        moveCard
     }
 });

@@ -2,6 +2,10 @@
     <article
         class="card"
         :class="{ 'card--editing': isEditing }"
+        draggable="true"
+        @dragstart="onDragStart"
+        @drop="onDrop"
+        @dragover.prevent
         @dblclick="isEditing = !isEditing"
         @keypress.enter="saveChanges(true)"
     >
@@ -44,9 +48,20 @@ import { reactive } from 'vue';
 import { useBoardStore } from '@/store/board';
 import { computed } from 'vue';
 
+interface IProps extends ICard {
+    columnId: number;
+    draggedId: number | null;
+}
+
+interface IEmits {
+    (e: 'drag-start', id: number): void;
+    (e: 'drop-card', id: number): void;
+}
+
 const boardStore = useBoardStore();
 
-const props = defineProps<ICard & { columnId: number }>();
+const props = defineProps<IProps>();
+const emit = defineEmits<IEmits>();
 
 const isEditing = ref(!!props.new);
 
@@ -79,6 +94,14 @@ const saveChanges = (isSaved: boolean) => {
     isEditing.value = false;
 
     emitChanges();
+};
+
+const onDragStart = () => {
+    emit('drag-start', props.id);
+};
+
+const onDrop = () => {
+    emit('drop-card', props.id);
 };
 
 const disabledSaveChanges = computed(() => {

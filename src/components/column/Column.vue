@@ -31,6 +31,9 @@
                         :description="card.description"
                         :new="card.new"
                         :column-id="id"
+                        :dragged-id="draggedCardId"
+                        @drag-start="draggedCardId = $event"
+                        @drop-card="(toCardId) => updateCardPosition(draggedCardId!, toCardId)"
                     />
                 </div>
                 <AddCard @add-card="onAddCard" />
@@ -69,6 +72,7 @@ const boardStore = useBoardStore();
 const props = defineProps<IColumn>();
 
 const minutesSinceLastEdit = ref<number | null>(null);
+const draggedCardId = ref<number | null>(null);
 
 const { isDisabledAllColumns } = storeToRefs(boardStore);
 
@@ -90,6 +94,10 @@ const onSort = (sort: 'asc' | 'desc') => {
 
 const onClear = () => {
     boardStore.clearColumnCards(props.id);
+};
+
+const updateCardPosition = (fromId: number, toId: number) => {
+   boardStore.moveCard(props.id, fromId, toId);
 };
 
 const changeColumnTitle = (event: Event) => {
