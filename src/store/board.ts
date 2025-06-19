@@ -1,6 +1,7 @@
+import { useLocalStorage } from "@/services/saveData";
 import type { ICard, IColumn } from "@/types";
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 
 export const useBoardStore = defineStore('board', () => {
     const boardColumns = reactive<IColumn[]>([
@@ -20,6 +21,8 @@ export const useBoardStore = defineStore('board', () => {
             cards: []
         }
     ]);
+
+    const localService = useLocalStorage();
 
     const isDisabledAllColumns = ref(false);
 
@@ -146,6 +149,22 @@ export const useBoardStore = defineStore('board', () => {
 
         isDisabledAllColumns.value = !isDisabledAllColumns.value;
     }
+
+    watch(() => boardColumns, (val) => {
+        if(val) {
+            localService.saveData(val);
+        }
+    }, {
+        deep: true
+    });
+
+    onMounted(() => {
+        const data = localService.restoreData();
+
+        if(data) {
+            boardColumns.splice(0, boardColumns.length, ...data);
+        }
+    });
 
     return {
         boardColumns,
