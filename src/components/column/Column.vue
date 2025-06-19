@@ -8,7 +8,7 @@
                 <h3
                     class="column__header-title"
                     :class="{ 'column__header-title--editable': props.new }"
-                    :contenteditable="props.new"
+                    :contenteditable="!props.disabled"
                     @keypress.enter="changeColumnTitle"
                 >
                     {{ title }}
@@ -106,6 +106,7 @@ const updateCardPosition = (fromId: number, toId: number) => {
 };
 
 const changeColumnTitle = (event: Event) => {
+    event.preventDefault();
     const target = event.target as HTMLHeadingElement;
     const newTitle = target.textContent?.trim() || '';
     boardStore.updateColumnTitle(props.id, newTitle);
