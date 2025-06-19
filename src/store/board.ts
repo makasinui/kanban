@@ -38,9 +38,17 @@ export const useBoardStore = defineStore('board', () => {
         addCard(columnId, newCard);
     }
 
+    const toggleDisableColumn = (columnId: number) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            column.disabled = !column.disabled;
+        }
+    }
+
     return {
         boardColumns,
         addCard,
-        addNewCard
+        addNewCard,
+        toggleDisableColumn
     }
 });

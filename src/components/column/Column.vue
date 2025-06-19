@@ -1,11 +1,14 @@
 <template>
-    <div class="column">
+    <div class="column" :class="{ 'column--disabled': props.disabled }">
         <div class="column__header">
             <div class="column__header-text">
                 <h3 class="column__header-title">{{ title }}</h3>
                 <span class="column__header-amount">{{ amountOfCards }}</span>
             </div>
-            <HeaderActions />
+            <HeaderActions 
+                :disabled="disabled" 
+                @disable-editing="onDisableColumn" 
+            />
         </div>
         <div class="column__content">
             <div class="column__cards">
@@ -44,6 +47,10 @@ const onAddCard = () => {
     boardStore.addNewCard(props.id);
 };
 
+const onDisableColumn = () => {
+    boardStore.toggleDisableColumn(props.id);
+};
+
 const amountOfCards = computed(() => {
     return props.cards?.length || '';
 });
@@ -63,6 +70,19 @@ const amountOfCards = computed(() => {
     display: flex;
     flex-direction: column;
 
+    &--disabled {
+        pointer-events: none;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 12px;
+        }
+    }
 
     &__header {
         display: flex;

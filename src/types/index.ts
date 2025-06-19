@@ -2,6 +2,7 @@ export interface IColumn {
     id: number;
     title: string;
     cards: ICard[];
+    disabled?: boolean;
 }
 
 export interface ICard {

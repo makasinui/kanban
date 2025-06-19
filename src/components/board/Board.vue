@@ -7,6 +7,7 @@
                 :id="column.id"
                 :title="column.title"
                 :cards="column.cards"
+                :disabled="column.disabled"
             />
         </div>
         <BoardActions />
