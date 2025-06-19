@@ -7,7 +7,7 @@
             <div class="column__header-text">
                 <h3
                     class="column__header-title"
-                    :class="{'column__header-title--editable': props.new}"
+                    :class="{ 'column__header-title--editable': props.new }"
                     :contenteditable="props.new"
                     @keypress.enter="changeColumnTitle"
                 >
@@ -23,7 +23,11 @@
         </div>
         <div class="column__content">
             <div class="column__cards">
-                <div class="column__cards-wrapper">
+                <TransitionGroup
+                    tag="div"
+                    name="card-list"
+                    class="column__cards-wrapper"
+                >
                     <Card
                         v-for="card in props.cards"
                         :key="card.id"
@@ -36,7 +40,7 @@
                         @drag-start="draggedCardId = $event"
                         @drop-card="(toCardId) => updateCardPosition(draggedCardId!, toCardId)"
                     />
-                </div>
+                </TransitionGroup>
                 <AddCard @add-card="onAddCard" />
                 <span
                     class="column__cards-time"
@@ -98,7 +102,7 @@ const onClear = () => {
 };
 
 const updateCardPosition = (fromId: number, toId: number) => {
-   boardStore.moveCard(props.id, fromId, toId);
+    boardStore.moveCard(props.id, fromId, toId);
 };
 
 const changeColumnTitle = (event: Event) => {
@@ -215,6 +219,38 @@ watch(() => props.lastEdited, updateTimeDiff);
             text-align: center;
             color: rgba(0, 0, 0, 0.15);
         }
+    }
+
+    .card-list-move {
+        transition: transform 0.2s ease;
+    }
+    
+    .card-list-enter-from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .card-list-enter-active {
+        transition: all 0.3s ease;
+    }
+
+    .card-list-enter-to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .card-list-leave-from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .card-list-leave-active {
+        transition: all 0.3s ease;
+    }
+
+    .card-list-leave-to {
+        opacity: 0;
+        transform: translateY(-20px);
     }
 }
 </style>
