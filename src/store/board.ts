@@ -1,6 +1,6 @@
 import type { ICard, IColumn } from "@/types";
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export const useBoardStore = defineStore('board', () => {
     const boardColumns = reactive<IColumn[]>([
@@ -20,6 +20,8 @@ export const useBoardStore = defineStore('board', () => {
             cards: []
         }
     ]);
+
+    const isDisabledAllColumns = ref(false);
 
     const addCard = (columnId: number, card: ICard) => {
         const column = boardColumns.find(col => col.id === columnId);
@@ -124,12 +126,15 @@ export const useBoardStore = defineStore('board', () => {
 
     const toggleDisableEditing = () => {
         boardColumns.forEach(column => {
-            column.disabled = !column.disabled;
+            column.disabled = !isDisabledAllColumns.value;
         });
+
+        isDisabledAllColumns.value = !isDisabledAllColumns.value;
     }
 
     return {
         boardColumns,
+        isDisabledAllColumns,
         addCard,
         addNewCard,
         updateCard,

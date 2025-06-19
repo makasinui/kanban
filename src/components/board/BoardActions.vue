@@ -14,19 +14,31 @@
                 <span>Shuffle Cards</span>
             </ActionButton>
             <ActionButton @click="boardStore.toggleDisableEditing">
-                <img :src="IconPause" />
-                <span>Disable Editing</span>
+                <img :src="disabledIcon" />
+                <span>{{ disabledText }}</span>
             </ActionButton>
         </div>
         <span class="board__actions-title">Board Actions</span>
     </footer>
 </template>
 <script setup lang="ts">
-import { IconPause, IconPlus, IconRandom } from '@/assets/icons';
+import { IconPause, IconPlay, IconPlus, IconRandom } from '@/assets/icons';
 import ActionButton from '../ui/ActionButton.vue';
 import { useBoardStore } from '@/store/board';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 const boardStore = useBoardStore();
+
+const { isDisabledAllColumns } = storeToRefs(boardStore);
+
+const disabledIcon = computed(() => {
+    return isDisabledAllColumns.value ? IconPlay : IconPause;
+});
+
+const disabledText = computed(() => {
+    return isDisabledAllColumns.value ? 'Enable Editing' : 'Disable Editing';
+});
 </script>
 
 <style lang="scss">

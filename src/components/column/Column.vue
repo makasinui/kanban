@@ -15,7 +15,7 @@
                 <span class="column__header-amount">{{ amountOfCards }}</span>
             </div>
             <HeaderActions
-                :disabled="disabled"
+                :disabled="disabled && !isDisabledAllColumns"
                 @disable-editing="onDisableColumn"
                 @delete-column="onDeleteColumn"
             />
@@ -62,12 +62,15 @@ import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { onUnmounted } from 'vue';
 import { watch } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const boardStore = useBoardStore();
 
 const props = defineProps<IColumn>();
 
 const minutesSinceLastEdit = ref<number | null>(null);
+
+const { isDisabledAllColumns } = storeToRefs(boardStore);
 
 const onAddCard = () => {
     boardStore.addNewCard(props.id);
