@@ -1,5 +1,5 @@
 <template>
-    <button class="add-card">
+    <button class="add-card" @click="emit('add-card')">
         <img
             :src="IconPlus"
             class="icon add-card__icon"
@@ -9,6 +9,12 @@
 </template>
 <script setup lang="ts">
 import { IconPlus } from '@/assets/icons';
+
+interface IEmits {
+    (event: 'add-card'): void;
+}
+
+const emit = defineEmits<IEmits>();
 </script>
 
 <style lang="scss">

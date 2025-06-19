@@ -16,9 +16,10 @@
                         :id="card.id"
                         :title="card.title"
                         :description="card.description"
+                        :new="card.new"
                     />
                 </div>
-                <AddCard />
+                <AddCard @add-card="onAddCard" />
             </div>
             <FooterActions />
         </div>
@@ -28,18 +29,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import type { ICard } from '@/types';
+import type { IColumn } from '@/types';
 import HeaderActions from './HeaderActions.vue';
 import AddCard from './AddCard.vue';
 import FooterActions from './FooterActions.vue';
 import Card from '../card/Card.vue';
+import { useBoardStore } from '@/store/board';
 
-interface IProps {
-    title: string;
-    cards: ICard[] | null;
-}
+const boardStore = useBoardStore();
 
-const props = defineProps<IProps>();
+const props = defineProps<IColumn>();
+
+const onAddCard = () => {
+    boardStore.addNewCard(props.id);
+};
 
 const amountOfCards = computed(() => {
     return props.cards?.length || '';
@@ -50,6 +53,7 @@ const amountOfCards = computed(() => {
 .column {
     background: #eceff2;
     max-width: 448px;
+    width: 100%;
     padding: 16px;
     border-radius: 12px;
     min-height: 100%;

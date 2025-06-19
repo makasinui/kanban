@@ -1,21 +1,29 @@
 <template>
     <div class="board">
         <Column
-            title="asd"
-            :cards="[
-                { id: 1, title: 'Add the ability to self-destruct when the user uses internet explorer 8', description: 'Add Description' },
-                { id: 2, title: 'Add the ability to self-destruct when the user uses internet explorer 8', description: 'Add Description' },
-            ]"
+            v-for="column in boardColumns"
+            :key="column.id"
+            :id="column.id"
+            :title="column.title"
+            :cards="column.cards"
         />
     </div>
 </template>
 
 <script setup lang="ts">
+import { useBoardStore } from '@/store/board';
 import Column from './column/Column.vue';
+import { storeToRefs } from 'pinia';
+
+const boardStore = useBoardStore();
+
+const { boardColumns } = storeToRefs(boardStore);
 </script>
 
 <style lang="scss" setup>
 .board {
     height: 100%;
+    display: flex;
+    gap: 24px;
 }
 </style>

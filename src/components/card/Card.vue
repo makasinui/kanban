@@ -10,7 +10,7 @@
                 :contenteditable="isEditing"
                 @input="(ev) => onChange(ev, 'title')"
             >
-                {{ form.title ?? 'Add title' }}
+                {{ form.title ? form.title : 'Add title' }}
             </h3>
             <img
                 :src="IconDragNDrop"
@@ -22,7 +22,7 @@
             :contenteditable="isEditing"
             @input="(ev) => onChange(ev, 'description')"
         >
-            {{ form.description ?? 'Add description' }}
+            {{ form.description ? form.description : 'Add description' }}
         </p>
         <CardActions @save-changes="saveChanges" v-show="isEditing" />
     </article>
@@ -37,7 +37,7 @@ import { reactive } from 'vue';
 
 const props = defineProps<ICard>();
 
-const isEditing = ref(false);
+const isEditing = ref(!!props.new);
 
 const form = reactive({
     title: props.title,
