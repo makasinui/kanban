@@ -122,6 +122,12 @@ export const useBoardStore = defineStore('board', () => {
         });
     }
 
+    const toggleDisableEditing = () => {
+        boardColumns.forEach(column => {
+            column.disabled = !column.disabled;
+        });
+    }
+
     return {
         boardColumns,
         addCard,
@@ -134,6 +140,7 @@ export const useBoardStore = defineStore('board', () => {
         addNewColumn,
         updateColumnTitle,
         shuffleColumns,
-        shuffleCards
+        shuffleCards,
+        toggleDisableEditing
     }
 });
