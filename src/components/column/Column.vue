@@ -7,6 +7,7 @@
             <div class="column__header-text">
                 <h3
                     class="column__header-title"
+                    :class="{'column__header-title--editable': props.new}"
                     :contenteditable="props.new"
                     @keypress.enter="changeColumnTitle"
                 >
@@ -139,7 +140,8 @@ watch(() => props.lastEdited, updateTimeDiff);
     min-height: 100%;
     position: relative;
     flex: 1 1 100%;
-    overflow-y: auto;
+    overflow: hidden auto;
+    min-width: 400px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -174,6 +176,15 @@ watch(() => props.lastEdited, updateTimeDiff);
 
         &-title {
             text-transform: uppercase;
+            max-width: 110px;
+            word-break: break-word;
+
+            &--editable {
+                min-width: 20px;
+                max-width: 70px;
+                display: inline-block;
+                border-bottom: 1px solid #000;
+            }
         }
 
         &-amount {

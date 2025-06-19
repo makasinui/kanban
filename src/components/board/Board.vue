@@ -38,6 +38,8 @@ const { boardColumns } = storeToRefs(boardStore);
         gap: 24px;
         height: 100%;
         min-height: 0;
+        max-width: 100vw;
+        overflow-x: auto;
     }
 
     &::after {
