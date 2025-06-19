@@ -30,9 +30,14 @@ const emit = defineEmits<IEmits>();
     background: #CED9E3;
     margin-top: 8px;
     gap: 8px;
+    transition: 0.3s all;
 
     &__icon {
         object-fit: none;
+    }
+
+    &:hover {
+        background: #ced9e3ad;
     }
 }
 </style>

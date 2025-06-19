@@ -31,11 +31,16 @@ defineProps<IProps>();
     border: none;
     border-radius: 50px;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    transition: 0.3s all;
 
     &--disabled {
         opacity: 0.5;
         pointer-events: none;
         cursor: not-allowed;
+    }
+
+    &:hover {
+        background: #ffffff70;
     }
 }
 </style>
