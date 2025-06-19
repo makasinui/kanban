@@ -160,8 +160,8 @@ export const useBoardStore = defineStore('board', () => {
 
     onMounted(() => {
         const data = localService.restoreData();
-
-        if(data) {
+        console.log(data);
+        if(data && data?.length !== 0) {
             boardColumns.splice(0, boardColumns.length, ...data);
         }
     });
