@@ -9,6 +9,7 @@
                 :cards="column.cards"
                 :disabled="column.disabled"
                 :sort="column.sort"
+                :last-edited="column.lastEdited"
             />
         </div>
         <BoardActions />

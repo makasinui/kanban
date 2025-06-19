@@ -4,6 +4,7 @@ export interface IColumn {
     cards: ICard[];
     disabled?: boolean;
     sort?: 'asc' | 'desc';
+    lastEdited?: Date;
 }
 
 export interface ICard {

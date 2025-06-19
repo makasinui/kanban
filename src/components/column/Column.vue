@@ -25,6 +25,7 @@
                     />
                 </div>
                 <AddCard @add-card="onAddCard" />
+                <span class="column__cards-time" v-if="lastEdited">Last edit: {{ minutesSinceLastEdit }} min ago</span>
             </div>
             <FooterActions :sort="sort" @sort="onSort" @clear-all="onClear" />
         </div>
@@ -40,10 +41,16 @@ import AddCard from './AddCard.vue';
 import FooterActions from './FooterActions.vue';
 import Card from '../card/Card.vue';
 import { useBoardStore } from '@/store/board';
+import { ref } from 'vue';
+import { onMounted } from 'vue';
+import { onUnmounted } from 'vue';
+import { watch } from 'vue';
 
 const boardStore = useBoardStore();
 
 const props = defineProps<IColumn>();
+
+const minutesSinceLastEdit = ref<number | null>(null);
 
 const onAddCard = () => {
     boardStore.addNewCard(props.id);
@@ -65,9 +72,28 @@ const onClear = () => {
     boardStore.clearColumnCards(props.id);
 };
 
+const updateTimeDiff = () => {
+    if (props?.lastEdited) {
+        const now = new Date();
+        const diff = now.getTime() - new Date(props.lastEdited).getTime();
+        minutesSinceLastEdit.value = Math.floor(diff / (1000 * 60));
+    } else {
+        minutesSinceLastEdit.value = null;
+    }
+};
+
 const amountOfCards = computed(() => {
     return props.cards?.length || '';
 });
+
+onMounted(() => {
+    updateTimeDiff();
+    const interval = setInterval(updateTimeDiff, 60000);
+
+    onUnmounted(() => clearInterval(interval));
+});
+
+watch(() => props.lastEdited, updateTimeDiff);
 </script>
 
 <style lang="scss">
@@ -133,6 +159,16 @@ const amountOfCards = computed(() => {
             flex-direction: column;
             margin-top: 16px;
             gap: 8px;
+        }
+
+        &-time {
+            font-size: 14px; 
+            font-weight: 600;
+            padding-top: 16px;
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.15);
         }
     }
 }

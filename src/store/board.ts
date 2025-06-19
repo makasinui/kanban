@@ -25,6 +25,8 @@ export const useBoardStore = defineStore('board', () => {
         const column = boardColumns.find(col => col.id === columnId);
         if (column) {
             column.cards.push(card);
+
+            column.lastEdited = new Date();
         }
     };
 
@@ -45,6 +47,8 @@ export const useBoardStore = defineStore('board', () => {
             if (cardIndex !== -1) {
                 column.cards[cardIndex] = { ...column.cards[cardIndex], ...updatedCard };
             }
+
+            column.lastEdited = new Date();
         }
     }
 
