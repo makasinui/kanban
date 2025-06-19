@@ -1,6 +1,9 @@
 <template>
     <div class="column__actions">
-        <ActionButton :class="{'action--enable': disabled}" @click="emit('disableEditing')">
+        <ActionButton
+            :class="{ 'action--enable': disabled }"
+            @click="emit('disableEditing')"
+        >
             <img
                 class="icon"
                 :src="disabledIcon"

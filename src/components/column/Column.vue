@@ -7,7 +7,8 @@
             </div>
             <HeaderActions 
                 :disabled="disabled" 
-                @disable-editing="onDisableColumn" 
+                @disable-editing="onDisableColumn"
+                @delete-column="onDeleteColumn"
             />
         </div>
         <div class="column__content">
@@ -49,6 +50,10 @@ const onAddCard = () => {
 
 const onDisableColumn = () => {
     boardStore.toggleDisableColumn(props.id);
+};
+
+const onDeleteColumn = () => {
+    boardStore.deleteColumn(props.id);
 };
 
 const amountOfCards = computed(() => {

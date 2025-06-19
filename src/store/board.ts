@@ -45,10 +45,18 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const deleteColumn = (columnId: number) => {
+        const index = boardColumns.findIndex(col => col.id === columnId);
+        if (index !== -1) {
+            boardColumns.splice(index, 1);
+        }
+    }
+
     return {
         boardColumns,
         addCard,
         addNewCard,
-        toggleDisableColumn
+        toggleDisableColumn,
+        deleteColumn
     }
 });
