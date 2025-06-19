@@ -8,11 +8,19 @@
             <HeaderActions />
         </div>
         <div class="column__content">
-           <div class="column__cards">
-               <slot />
-               <AddCard />
-           </div>
-           <FooterActions />
+            <div class="column__cards">
+                <div class="column__cards-wrapper">
+                    <Card
+                        v-for="card in props.cards"
+                        :key="card.id"
+                        :id="card.id"
+                        :title="card.title"
+                        :description="card.description"
+                    />
+                </div>
+                <AddCard />
+            </div>
+            <FooterActions />
         </div>
     </div>
 </template>
@@ -24,6 +32,7 @@ import type { ICard } from '@/types';
 import HeaderActions from './HeaderActions.vue';
 import AddCard from './AddCard.vue';
 import FooterActions from './FooterActions.vue';
+import Card from '../card/Card.vue';
 
 interface IProps {
     title: string;
@@ -66,6 +75,15 @@ const amountOfCards = computed(() => {
 
         &-amount {
             color: rgba(0, 0, 0, 0.6);
+        }
+    }
+
+    &__cards {
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            margin-top: 16px;
+            gap: 8px;
         }
     }
 }
