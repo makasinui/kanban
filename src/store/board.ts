@@ -25,6 +25,7 @@ export const useBoardStore = defineStore('board', () => {
     const localService = useLocalStorage();
 
     const isDisabledAllColumns = ref(false);
+    const isLoaded = ref(false);
 
     const addCard = (columnId: number, card: ICard) => {
         const column = boardColumns.find(col => col.id === columnId);
@@ -163,11 +164,14 @@ export const useBoardStore = defineStore('board', () => {
         if(data && data?.length !== 0) {
             boardColumns.splice(0, boardColumns.length, ...data);
         }
+
+        isLoaded.value = true;
     });
 
     return {
         boardColumns,
         isDisabledAllColumns,
+        isLoaded,
         addCard,
         addNewCard,
         updateCard,

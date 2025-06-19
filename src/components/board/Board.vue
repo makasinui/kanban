@@ -1,6 +1,6 @@
 <template>
     <div class="board">
-        <div class="board__columns">
+        <TransitionGroup v-if="isLoaded" tag="div" name="column-list" class="board__columns">
             <Column
                 v-for="column in boardColumns"
                 :key="column.id"
@@ -12,7 +12,7 @@
                 :last-edited="column.lastEdited"
                 :new="column.new"
             />
-        </div>
+        </TransitionGroup>
         <BoardActions />
     </div>
 </template>
@@ -25,7 +25,7 @@ import BoardActions from './BoardActions.vue';
 
 const boardStore = useBoardStore();
 
-const { boardColumns } = storeToRefs(boardStore);
+const { boardColumns, isLoaded } = storeToRefs(boardStore);
 </script>
 
 <style lang="scss" setup>
@@ -53,6 +53,34 @@ const { boardColumns } = storeToRefs(boardStore);
         filter: blur(5px);
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.08), transparent);
         pointer-events: none;
+    }
+
+    .column-list-enter-from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .column-list-enter-active {
+        transition: all 0.3s ease;
+    }
+
+    .column-list-enter-to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .column-list-leave-from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .column-list-leave-active {
+        transition: all 0.3s ease;
+    }
+
+    .column-list-leave-to {
+        opacity: 0;
+        transform: translateY(-20px);
     }
 }
 </style>
