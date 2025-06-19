@@ -67,12 +67,20 @@ export const useBoardStore = defineStore('board', () => {
         }
     }
 
+    const clearColumnCards = (columnId: number) => {
+        const column = boardColumns.find(col => col.id === columnId);
+        if (column) {
+            column.cards = [];
+        }
+    }
+
     return {
         boardColumns,
         addCard,
         addNewCard,
         toggleDisableColumn,
         deleteColumn,
-        sortColumnCards
+        sortColumnCards,
+        clearColumnCards
     }
 });

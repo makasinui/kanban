@@ -8,7 +8,7 @@
             <span>Sort</span>
             <span class="action-name">{{ getTitleSort }}</span>
         </ActionButton>
-        <ActionButton>
+        <ActionButton @click="emit('clearAll')">
             <img
                 class="icon"
                 :src="IconClose"
