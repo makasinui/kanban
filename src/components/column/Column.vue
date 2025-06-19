@@ -52,12 +52,12 @@ const amountOfCards = computed(() => {
 <style lang="scss">
 .column {
     background: #eceff2;
-    max-width: 448px;
     width: 100%;
     padding: 16px;
     border-radius: 12px;
     min-height: 100%;
     position: relative;
+    flex: 1 1 100%;
 
     &__header {
         display: flex;

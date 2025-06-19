@@ -4,7 +4,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import Board from './components/Board.vue';
+import Board from './components/board/Board.vue';
 </script>
 
 <style lang="scss">
