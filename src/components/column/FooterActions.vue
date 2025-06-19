@@ -6,7 +6,7 @@
                 :src="getIconSort"
             />
             <span>Sort</span>
-            <span>{{ getTitleSort }}</span>
+            <span class="action-name">{{ getTitleSort }}</span>
         </ActionButton>
         <ActionButton>
             <img
@@ -46,9 +46,14 @@ const changeSort = () => {
     position: absolute;
     align-items: center;
     gap: 8px;
-    bottom: 16px;
+    bottom: 4px;
     left: 50%;
     justify-content: center;
     transform: translate(-50%, -50%);
+
+    .action-name {
+        color: rgba(0, 0, 0, 0.3);
+        width: 75px;
+    }
 }
 </style>
