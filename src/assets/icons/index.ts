@@ -7,6 +7,7 @@ import IconPlus from './plus.svg';
 import IconRandom from './random.svg';
 import IconSortAsc from './sort_asc.svg';
 import IconSortDesc from './sort_desc.svg';
+import IconDragNDrop from './drag_drop.svg';
 
 export {
     IconClose,
@@ -17,5 +18,6 @@ export {
     IconPlus,
     IconRandom,
     IconSortAsc,
-    IconSortDesc
+    IconSortDesc,
+    IconDragNDrop
 }
