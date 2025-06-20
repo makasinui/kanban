@@ -1,7 +1,9 @@
 <template>
     <article
         class="column"
-        :class="{ 'column--disabled': props.disabled }"
+        :class="{'column--disabled': props.disabled}"
+        @drop="() => onDrop()"
+        @dragover.prevent
     >
         <div class="column__header">
             <div class="column__header-text">
@@ -37,8 +39,8 @@
                         :new="card.new"
                         :column-id="id"
                         :dragged-id="draggedCardId"
-                        @drag-start="draggedCardId = $event"
-                        @drop-card="(toCardId) => updateCardPosition(draggedCardId!, toCardId)"
+                        @drag-start="onDragStart"
+                        @drop-card="(toCardId) => onDrop(toCardId)"
                     />
                 </TransitionGroup>
                 <AddCard @add-card="onAddCard" />
@@ -74,7 +76,13 @@ import { storeToRefs } from 'pinia';
 
 const boardStore = useBoardStore();
 
+interface IEmits {
+    (event: 'drop-column', id: number, cardId: number, to?: number): void
+    (event: 'drag-start', id: number, cardId: number): void
+}
+
 const props = defineProps<IColumn>();
+const emit = defineEmits<IEmits>();
 
 const minutesSinceLastEdit = ref<number | null>(null);
 const draggedCardId = ref<number | null>(null);
@@ -101,9 +109,14 @@ const onClear = () => {
     boardStore.clearColumnCards(props.id);
 };
 
-const updateCardPosition = (fromId: number, toId: number) => {
-    boardStore.moveCard(props.id, fromId, toId);
-};
+const onDragStart = (id: number) => {
+    draggedCardId.value = id;
+    emit('drag-start', props.id, id);
+}
+
+const onDrop = (toId?: number) => {
+    emit('drop-column', props.id, draggedCardId.value!, toId);
+}
 
 const changeColumnTitle = (event: Event) => {
     event.preventDefault();

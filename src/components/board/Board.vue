@@ -11,6 +11,8 @@
                 :sort="column.sort"
                 :last-edited="column.lastEdited"
                 :new="column.new"
+                @drag-start="onDragStart"
+                @drop-column="onDropColumn"
             />
         </TransitionGroup>
         <BoardActions />
@@ -22,10 +24,27 @@ import { useBoardStore } from '@/store/board';
 import Column from '../column/Column.vue';
 import { storeToRefs } from 'pinia';
 import BoardActions from './BoardActions.vue';
+import { ref } from 'vue';
 
 const boardStore = useBoardStore();
 
 const { boardColumns, isLoaded } = storeToRefs(boardStore);
+const draggedColumnId = ref<number | null>(null);
+const draggedCardId = ref<number | null>(null);
+
+const onDragStart = (columnId: number, cardId: number) => {
+    draggedCardId.value = cardId;
+    draggedColumnId.value = columnId;
+}
+
+const onDropColumn = (columnId: number, cardId: number, to?: number) => {
+    if(columnId === draggedColumnId.value && to) {
+        boardStore.moveCard(columnId, draggedCardId.value!, to);
+        return;
+    }
+
+    boardStore.moveBetweenColumns(draggedColumnId.value!, columnId, draggedCardId.value!, cardId);
+}
 </script>
 
 <style lang="scss" setup>

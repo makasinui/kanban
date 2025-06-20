@@ -83,6 +83,23 @@ export const useBoardStore = defineStore('board', () => {
         }
     };
 
+    const moveBetweenColumns = (fromColumn: number, toColumn: number, startCardId: number, endCardId: number) => {
+        const firstCol = boardColumns.find(col => col.id === fromColumn);
+        const secondCol = boardColumns.find(col => col.id === toColumn);
+
+        if(firstCol && secondCol) {
+            const cardToMove = firstCol.cards.find(card => card.id === startCardId);
+            deleteCard(fromColumn, startCardId);
+
+            if(!cardToMove) return;
+
+            secondCol.cards.splice(endCardId, 0, cardToMove);
+            
+            firstCol.lastEdited = new Date();
+            secondCol.lastEdited = new Date();
+        }
+    }
+
     const toggleDisableColumn = (columnId: number) => {
         const column = boardColumns.find(col => col.id === columnId);
         if (column) {
@@ -195,6 +212,7 @@ export const useBoardStore = defineStore('board', () => {
         shuffleColumns,
         shuffleCards,
         toggleDisableEditing,
-        moveCard
+        moveCard,
+        moveBetweenColumns
     }
 });
